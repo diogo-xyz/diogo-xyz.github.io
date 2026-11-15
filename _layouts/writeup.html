@@ -1,0 +1,59 @@
+---
+layout: default
+---
+{%- include ctf-writeups.html ctf=page.ctf -%}
+{%- assign _wu_index = -1 -%}
+{%- for _wu_item in ctf_writeups -%}
+  {%- if _wu_item.url == page.url -%}{%- assign _wu_index = forloop.index0 -%}{%- endif -%}
+{%- endfor -%}
+{%- assign _wu_prev = nil -%}
+{%- assign _wu_next = nil -%}
+{%- if _wu_index > 0 -%}
+  {%- assign _wu_prev_index = _wu_index | minus: 1 -%}
+  {%- assign _wu_prev = ctf_writeups[_wu_prev_index] -%}
+{%- endif -%}
+{%- if _wu_index >= 0 -%}
+  {%- assign _wu_next_index = _wu_index | plus: 1 -%}
+  {%- assign _wu_next = ctf_writeups[_wu_next_index] -%}
+{%- endif -%}
+<article class="container section entry entry--writeup">
+  <p class="entry__back"><a href="{{ '/writeups/' | relative_url }}">← Back to writeups</a></p>
+  <header class="entry__header terminal">
+    <p class="terminal__line"><span class="terminal__prompt" aria-hidden="true">$</span> cat writeup.md</p>
+    <h1 class="entry__title">{{ page.title | escape }}</h1>
+    {%- if page.summary %}
+    <p class="entry__summary">{{ page.summary | escape }}</p>
+    {%- endif %}
+    {% include writeup-meta.html writeup=page %}
+  </header>
+
+  {% include toc.html html=content %}
+
+  <div class="prose">
+    {{ content | replace: '<img ', '<img loading="lazy" ' }}
+  </div>
+
+  {%- if page.flag %}
+  <details class="flag">
+    <summary class="button">Reveal flag</summary>
+    <code class="flag__value">{{ page.flag | escape }}</code>
+  </details>
+  {%- endif %}
+
+  {%- if _wu_prev or _wu_next %}
+  <nav class="pager" aria-label="More writeups from this CTF">
+    {%- if _wu_prev %}
+    <a class="pager__link pager__link--prev" href="{{ _wu_prev.url | relative_url }}">
+      <span class="pager__label">← Previous</span>
+      <span class="pager__title">{{ _wu_prev.title | escape }}</span>
+    </a>
+    {%- endif %}
+    {%- if _wu_next %}
+    <a class="pager__link pager__link--next" href="{{ _wu_next.url | relative_url }}">
+      <span class="pager__label">Next →</span>
+      <span class="pager__title">{{ _wu_next.title | escape }}</span>
+    </a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+</article>

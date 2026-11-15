@@ -1,0 +1,10 @@
+# Project categories: `id` is what you write in a project's front matter,
+# `name` is what the site shows. The order here is the order of the filter chips.
+- id: security
+  name: Security
+- id: machine-learning
+  name: Machine Learning
+- id: web
+  name: Web Development
+- id: data
+  name: Data Science

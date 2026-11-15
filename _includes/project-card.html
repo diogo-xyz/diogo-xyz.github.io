@@ -1,0 +1,28 @@
+{%- comment -%} Card for the projects grid (param: project). Opens the modal; without JS it links to the project page. {%- endcomment -%}
+{%- assign _pc = include.project -%}
+<a class="card" href="{{ _pc.url | relative_url }}" data-modal="modal-{{ _pc.slug }}">
+  {%- if _pc.cover %}
+  <img class="card__cover" src="{{ _pc.url | append: _pc.cover | relative_url }}" alt="" loading="lazy" width="640" height="360">
+  {%- endif %}
+  <div class="card__body">
+    <h2 class="card__title">{{ _pc.title | escape }}</h2>
+    {%- if _pc.summary %}
+    <p class="card__summary">{{ _pc.summary | escape }}</p>
+    {%- endif %}
+    <ul class="chip-list">
+      {%- if _pc.featured %}
+      <li class="badge badge--featured">Featured</li>
+      {%- endif %}
+      {%- if _pc.context %}
+      <li class="badge badge--context">{{ _pc.context | escape }}</li>
+      {%- endif %}
+      {%- for _pc_category in _pc.categories -%}
+        {%- assign _pc_known = site.data.categories | where: "id", _pc_category | first %}
+      <li class="chip chip--static">{{ _pc_known.name | default: _pc_category | escape }}</li>
+      {%- endfor %}
+    </ul>
+    {%- if _pc.tech %}
+    <p class="card__tech">{{ _pc.tech | join: ", " | escape }}</p>
+    {%- endif %}
+  </div>
+</a>

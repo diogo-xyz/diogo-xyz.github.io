@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Design tokens
+   Every colour, font, radius and spacing value of the site lives here.
+   main.css only refers to these custom properties, so re-theming the site
+   means editing this file and nothing else.
+
+   A light theme can be added later by overriding the colour tokens only:
+
+     :root[data-theme="light"] {
+       color-scheme: light;
+       --color-bg: #ffffff;
+       --color-text: #1b2430;
+       ...
+     }
+   ========================================================================== */
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* --- Surfaces --------------------------------------------------------- */
+  --color-bg: #0d1117;
+  --color-surface: #141b24;
+  --color-surface-raised: #1b2430;
+  --color-border: #2b3543;
+  --color-border-strong: #3f4c5e;
+  --color-hover: rgb(255 255 255 / 0.045);
+  --color-backdrop: rgb(4 7 12 / 0.76);
+
+  /* --- Text ------------------------------------------------------------- */
+  --color-text: #dde4ec;
+  --color-text-muted: #a3adb9;
+  --color-text-faint: #8791a0;
+  --color-text-on-accent: #07140c;
+
+  /* --- Accent: the single highlight colour (soft terminal green) -------- */
+  --color-accent: #7fd6a2;
+  --color-accent-strong: #a6e8c0;
+  --color-accent-soft: rgb(127 214 162 / 0.12);
+
+  /* --- Meaning ---------------------------------------------------------- */
+  --color-education: #b7a1fa;      /* timeline: education branches (violet) */
+  --color-experience: #4fd0c1;     /* timeline: experience branches (teal)  */
+  --color-achievement: #efb155;    /* timeline: hackathons and CTFs (amber) */
+  --color-gold: #ffd87a;           /* highlighted results                   */
+  --color-main: #6b7785;           /* timeline: the main line               */
+  --color-danger: #f2918a;
+
+  --color-difficulty-easy: var(--color-accent);
+  --color-difficulty-medium: var(--color-achievement);
+  --color-difficulty-hard: var(--color-danger);
+  --color-difficulty-insane: var(--color-education);
+
+  /* --- Syntax highlighting (Rouge) --------------------------------------- */
+  --syntax-text: var(--color-text);
+  --syntax-comment: #8791a0;
+  --syntax-keyword: #b7a1fa;
+  --syntax-string: #7fd6a2;
+  --syntax-number: #efb155;
+  --syntax-function: #7cc4f2;
+  --syntax-builtin: #4fd0c1;
+  --syntax-operator: #a3adb9;
+  --syntax-error: #f2918a;
+
+  /* --- Typography -------------------------------------------------------- */
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.5rem;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.65;
+
+  /* --- Spacing ----------------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  /* --- Shape ------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+  --border-width: 1px;
+  --focus-width: 2px;
+
+  /* --- Layout ------------------------------------------------------------ */
+  --container-width: 60rem;
+  --prose-width: 44rem;
+  --header-height: 3.5rem;
+
+  /* --- Timeline graph ---------------------------------------------------- */
+  --timeline-line-width: 2px;
+  --timeline-title-size: 0.9375rem;
+  --timeline-text-size: 0.8125rem;
+
+  /* --- Motion ------------------------------------------------------------ */
+  --duration-fast: 120ms;
+  --duration-pulse: 2.4s;
+}

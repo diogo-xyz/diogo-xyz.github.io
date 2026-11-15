@@ -1,0 +1,57 @@
+{%- comment -%} Metadata, links and related event of a project (param: project). Shared by the modal and the project page. {%- endcomment -%}
+{%- assign _pm = include.project -%}
+<dl class="meta">
+  {%- if _pm.start %}
+  <div><dt>When</dt><dd>{% include date.html start=_pm.start end=_pm.end %}</dd></div>
+  {%- endif %}
+  {%- if _pm.status %}
+  <div><dt>Status</dt><dd>{{ _pm.status | replace: "-", " " | capitalize | escape }}</dd></div>
+  {%- endif %}
+  {%- if _pm.context %}
+  <div><dt>Context</dt><dd>{{ _pm.context | capitalize | escape }}{% if _pm.course %} · {{ _pm.course | escape }}{% endif %}</dd></div>
+  {%- endif %}
+  {%- if _pm.team %}
+  <div><dt>Team</dt><dd>{{ _pm.team | escape }}</dd></div>
+  {%- endif %}
+  {%- if _pm.role %}
+  <div><dt>Role</dt><dd>{{ _pm.role | escape }}</dd></div>
+  {%- endif %}
+  {%- if _pm.categories.size > 0 %}
+  <div>
+    <dt>Categories</dt>
+    <dd>
+      <ul class="chip-list">
+        {%- for _pm_category in _pm.categories -%}
+          {%- assign _pm_known = site.data.categories | where: "id", _pm_category | first %}
+        <li class="chip chip--static">{{ _pm_known.name | default: _pm_category | escape }}</li>
+        {%- endfor %}
+      </ul>
+    </dd>
+  </div>
+  {%- endif %}
+  {%- if _pm.tech %}
+  <div><dt>Tech</dt><dd>{{ _pm.tech | join: ", " | escape }}</dd></div>
+  {%- endif %}
+  {%- include event-ref.html id=_pm.event -%}
+  {%- if ref_event %}
+  <div><dt>Related event</dt><dd><a href="{{ '/' | relative_url }}#modal-{{ ref_event.id }}">{{ ref_event_title | escape }}</a></dd></div>
+  {%- endif %}
+</dl>
+{%- assign _pm_has_links = false -%}
+{%- for _pm_link in _pm.links -%}
+  {%- if _pm_link[1] -%}{%- assign _pm_has_links = true -%}{%- endif -%}
+{%- endfor -%}
+{%- if _pm_has_links %}
+<ul class="link-list">
+  {%- for _pm_link in _pm.links -%}
+    {%- if _pm_link[1] -%}
+      {%- if _pm_link[0] == "github" -%}
+        {%- assign _pm_label = "GitHub" -%}
+      {%- else -%}
+        {%- assign _pm_label = _pm_link[0] | capitalize -%}
+      {%- endif %}
+  <li><a class="button button--small" href="{{ _pm_link[1] | escape }}" target="_blank" rel="noopener">{{ _pm_label | escape }} ↗</a></li>
+    {%- endif -%}
+  {%- endfor %}
+</ul>
+{%- endif -%}

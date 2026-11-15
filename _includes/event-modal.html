@@ -1,0 +1,204 @@
+{%- comment -%}
+  Modal content for one item of timeline.yml or ctfs.yml (param: event).
+  Reverse links are computed here: certificates and projects that point to this
+  event with `event: <id>` show up without being listed in the event itself.
+{%- endcomment -%}
+{%- assign _em = include.event -%}
+{%- assign _em_empty = "" | split: "" -%}
+{%- include event-vars.html event=_em -%}
+<template id="modal-{{ _em.id }}">
+  <article class="detail is-{{ ev_group }}">
+    <header class="detail__header">
+      <p class="detail__kind">
+        {%- if ev_type == "ctf" %}CTF{% else %}{{ ev_type | capitalize }}{% endif -%}
+        {%- if _em.in_person %} · On-site{% endif -%}
+      </p>
+      <h2 class="detail__title">{{ ev_title | escape }}</h2>
+      {%- if ev_subtitle and ev_subtitle != "" %}
+      <p class="detail__subtitle">{{ ev_subtitle | escape }}</p>
+      {%- endif %}
+      <p class="detail__period">
+        {%- if ev_point -%}
+          {%- include date.html start=_em.start end=_em.end single=true -%}
+        {%- else -%}
+          {%- include date.html start=_em.start end=_em.end -%}
+        {%- endif -%}
+        {%- if _em.location %} · {{ _em.location | escape }}{% endif -%}
+      </p>
+      {%- if ev_result or _em.tag or _em.tags %}
+      <ul class="chip-list">
+        {%- if ev_result %}
+        <li class="badge badge--result{% if _em.highlight %} badge--gold{% endif %}">{{ ev_result | escape }}</li>
+        {%- endif %}
+        {%- if _em.tag %}
+        <li class="chip chip--static">{{ _em.tag | escape }}</li>
+        {%- endif %}
+        {%- for _em_tag in _em.tags %}
+        <li class="chip chip--static">{{ _em_tag | escape }}</li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </header>
+
+    {%- if _em.summary %}
+    <p class="detail__summary">{{ _em.summary | escape }}</p>
+    {%- endif %}
+
+    {%- if _em.details %}
+    <div class="prose">
+      {{ _em.details | markdownify }}
+    </div>
+    {%- endif %}
+
+    {%- if _em.milestones %}
+      {%- assign _em_milestones = _em.milestones | sort: "date" -%}
+      {%- if ev_group == "experience" %}
+    <section class="detail__section">
+      <h3>Roles</h3>
+      <ol class="role-history">
+        {%- assign _em_first = _em_milestones | first %}
+        <li>
+          <span class="role-history__title">{{ _em.title | escape }}</span>
+          <span class="role-history__period">({% include date.html start=_em.start end=_em_first.date %})</span>
+        </li>
+        {%- for _em_m in _em_milestones -%}
+          {%- assign _em_next = _em_milestones[forloop.index] -%}
+          {%- assign _em_role_end = _em_next.date | default: _em.end %}
+        <li>
+          <span class="role-history__title">{{ _em_m.title | escape }}</span>
+          <span class="role-history__period">({% include date.html start=_em_m.date end=_em_role_end %})</span>
+        </li>
+        {%- endfor %}
+      </ol>
+    </section>
+      {%- endif %}
+    <section class="detail__section">
+      <h3>Milestones</h3>
+      <ul class="detail__list">
+        {%- for _em_m in _em_milestones %}
+        <li>
+          <span class="detail__list-title">{% if _em_m.kind == "promotion" %}<span aria-hidden="true">↑ </span>{% endif %}{{ _em_m.title | escape }}</span>
+          <span class="detail__list-meta">{% include date.html date=_em_m.date %}{% if _em_m.kind %} · {{ _em_m.kind | escape }}{% endif %}</span>
+          {%- if _em_m.description %}
+          <span class="detail__list-text">{{ _em_m.description | escape }}</span>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+
+    {%- if _em.links or _em.url or _em.ctftime %}
+    <section class="detail__section">
+      <h3>Links</h3>
+      <ul class="link-list">
+        {%- for _em_link in _em.links %}
+        <li><a href="{{ _em_link.url | escape }}" target="_blank" rel="noopener">{{ _em_link.name | escape }} ↗</a></li>
+        {%- endfor %}
+        {%- if _em.url %}
+        <li><a href="{{ _em.url | escape }}" target="_blank" rel="noopener">Website ↗</a></li>
+        {%- endif %}
+        {%- if _em.ctftime %}
+        <li><a href="{{ _em.ctftime | escape }}" target="_blank" rel="noopener">CTFtime ↗</a></li>
+        {%- endif %}
+      </ul>
+    </section>
+    {%- endif %}
+
+    {%- comment -%} Certificates and awards that name this event. {%- endcomment -%}
+    {%- assign _em_certs = site.data.certificates | default: _em_empty | where: "event", _em.id | sort: "date" | reverse -%}
+    {%- if _em_certs.size > 0 -%}
+      {%- assign _em_counts = _em_empty -%}
+      {%- assign _em_kinds = "award,certification,participation" | split: "," -%}
+      {%- for _em_kind in _em_kinds -%}
+        {%- assign _em_n = _em_certs | where: "kind", _em_kind | size -%}
+        {%- if _em_n == 1 -%}
+          {%- assign _em_label = "1 " | append: _em_kind -%}
+          {%- assign _em_counts = _em_counts | push: _em_label -%}
+        {%- elsif _em_n > 1 -%}
+          {%- assign _em_label = _em_n | append: " " | append: _em_kind | append: "s" -%}
+          {%- assign _em_counts = _em_counts | push: _em_label -%}
+        {%- endif -%}
+      {%- endfor %}
+    <section class="detail__section">
+      <h3>Certificates &amp; awards{% if _em_counts.size > 0 %} <span class="detail__count">{{ _em_counts | join: ", " }}</span>{% endif %}</h3>
+      <ul class="detail__list">
+        {%- for _em_cert in _em_certs %}
+        <li>
+          <span class="detail__list-title">{{ _em_cert.title | escape }}</span>
+          <span class="detail__list-meta">{{ _em_cert.kind | default: "certification" }}{% if _em_cert.date %} · {% include date.html date=_em_cert.date %}{% endif %}</span>
+          {%- if _em_cert.file %}
+          <a class="detail__list-link" href="{{ _em_cert.file | relative_url }}">View certificate</a>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+
+    {%- comment -%} Projects: listed in the event (`projects:`) or pointing to it (`event:`). {%- endcomment -%}
+    {%- assign _em_projects = site.projects | where: "event", _em.id -%}
+    {%- assign _em_seen = _em_projects | map: "slug" -%}
+    {%- for _em_slug in _em.projects -%}
+      {%- unless _em_seen contains _em_slug -%}
+        {%- assign _em_project = site.projects | where: "slug", _em_slug | first -%}
+        {%- if _em_project -%}
+          {%- assign _em_projects = _em_projects | push: _em_project -%}
+          {%- assign _em_seen = _em_seen | push: _em_slug -%}
+        {%- else %}
+    <!-- build warning: "{{ _em.id }}" references unknown project "{{ _em_slug | escape }}" -->
+        {%- endif -%}
+      {%- endunless -%}
+    {%- endfor -%}
+    {%- if _em_projects.size > 0 %}
+    <section class="detail__section">
+      <h3>Projects</h3>
+      <ul class="detail__list">
+        {%- for _em_project in _em_projects %}
+        <li>
+          <a class="detail__list-title" href="{{ _em_project.url | relative_url }}">{{ _em_project.title | escape }}</a>
+          {%- if _em_project.summary %}
+          <span class="detail__list-text">{{ _em_project.summary | escape }}</span>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+
+    {%- comment -%} Writeups: every writeup of a CTF, plus the ones listed in `writeups:`. {%- endcomment -%}
+    {%- assign _em_writeups = _em_empty -%}
+    {%- if ev_type == "ctf" -%}
+      {%- assign _em_writeups = site.writeups | where: "ctf", _em.id -%}
+    {%- endif -%}
+    {%- for _em_wref in _em.writeups -%}
+      {%- assign _em_writeup = site.writeups | where: "slug", _em_wref | first -%}
+      {%- unless _em_writeup -%}
+        {%- assign _em_writeup = site.writeups | where: "ref", _em_wref | first -%}
+      {%- endunless -%}
+      {%- if _em_writeup -%}
+        {%- assign _em_writeups = _em_writeups | push: _em_writeup -%}
+      {%- else %}
+    <!-- build warning: "{{ _em.id }}" references unknown writeup "{{ _em_wref | escape }}" -->
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if _em_writeups.size > 0 %}
+    <section class="detail__section">
+      <h3>Writeups</h3>
+      <ul class="detail__list">
+        {%- for _em_writeup in _em_writeups %}
+        <li>
+          <a class="detail__list-title" href="{{ _em_writeup.url | relative_url }}">{{ _em_writeup.title | escape }}</a>
+          {%- if _em_writeup.summary %}
+          <span class="detail__list-text">{{ _em_writeup.summary | escape }}</span>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- if ev_type == "ctf" %}
+      <p><a href="{{ '/writeups/' | relative_url }}?ctf={{ _em.id }}">All writeups from this CTF</a></p>
+      {%- endif %}
+    </section>
+    {%- endif %}
+  </article>
+</template>

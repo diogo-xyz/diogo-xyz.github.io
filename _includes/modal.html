@@ -1,0 +1,10 @@
+{%- comment -%}
+  Shared modal shell. Content lives in <template id="modal-<id>"> elements
+  rendered by Liquid; modal.js clones the matching template into the body.
+{%- endcomment -%}
+<dialog id="modal" class="modal" aria-labelledby="modal-title">
+  <div class="modal__panel">
+    <button type="button" class="modal__close" data-modal-close aria-label="Close dialog">×</button>
+    <div class="modal__body" data-modal-body></div>
+  </div>
+</dialog>

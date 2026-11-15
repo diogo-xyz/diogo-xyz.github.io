@@ -1,0 +1,76 @@
+---
+layout: default
+title: Projects
+description: Things I have built for courses, hackathons and fun.
+permalink: /projects/
+---
+{%- comment -%} Order: featured first, then newest start date first. {%- endcomment -%}
+{%- assign _sorted = site.projects | sort: "start" | reverse -%}
+{%- assign _featured = _sorted | where: "featured", true -%}
+{%- assign _others = _sorted | where_exp: "project", "project.featured != true" -%}
+{%- assign _projects = _featured | concat: _others -%}
+
+{%- comment -%} Only categories that are actually used get a filter chip. {%- endcomment -%}
+{%- assign _used = "" | split: "" -%}
+{%- for project in _projects -%}
+  {%- for category in project.categories -%}
+    {%- unless _used contains category -%}{%- assign _used = _used | push: category -%}{%- endunless -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- assign _known_ids = site.data.categories | map: "id" -%}
+
+<section class="container section">
+  <h1 class="page-title">~/projects</h1>
+
+  <div class="filters js-only" data-filter-root data-filter-target="#project-list">
+    <div class="chip-group" role="group" aria-label="Filter by category" data-filter-facet="category">
+      <button type="button" class="chip" data-value="" aria-pressed="true">All</button>
+      {%- for category in site.data.categories -%}
+        {%- if _used contains category.id %}
+      <button type="button" class="chip" data-value="{{ category.id | escape }}" aria-pressed="false">{{ category.name | default: category.id | escape }}</button>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for category in _used -%}
+        {%- unless _known_ids contains category %}
+      <button type="button" class="chip" data-value="{{ category | escape }}" aria-pressed="false">{{ category | escape }}</button>
+        {%- endunless -%}
+      {%- endfor %}
+    </div>
+    <label class="search">
+      <span class="visually-hidden">Search projects by title, summary or tech</span>
+      <input type="search" placeholder="Search title, summary, tech" autocomplete="off" data-filter-search>
+    </label>
+    <p class="filters__count" data-filter-count aria-live="polite"></p>
+  </div>
+
+  <ul class="card-grid" id="project-list">
+    {%- for project in _projects %}
+    <li data-filter-item data-category="{{ project.categories | join: ' ' | escape }}" data-search="{{ project.title | append: ' ' | append: project.summary | append: ' ' | downcase | escape }}{{ project.tech | join: ' ' | downcase | escape }}">
+      {% include project-card.html project=project %}
+    </li>
+    {%- endfor %}
+  </ul>
+  <p class="empty-state" data-filter-empty hidden>No projects match these filters. Clear the search or choose "All".</p>
+</section>
+
+{%- for project in _projects %}
+<template id="modal-{{ project.slug }}" data-base="{{ project.url | relative_url }}">
+  <article class="detail">
+    <header class="detail__header">
+      <p class="detail__kind">Project</p>
+      <h2 class="detail__title">{{ project.title | escape }}</h2>
+      {%- if project.summary %}
+      <p class="detail__summary">{{ project.summary | escape }}</p>
+      {%- endif %}
+    </header>
+    {% include project-meta.html project=project %}
+    {%- if project.cover %}
+    <img class="detail__cover" src="{{ project.cover }}" alt="" width="1280" height="720">
+    {%- endif %}
+    <div class="prose">
+      {{ project.content }}
+    </div>
+    <p class="detail__more"><a class="button button--primary" href="{{ project.url | relative_url }}">Open project page</a></p>
+  </article>
+</template>
+{%- endfor %}

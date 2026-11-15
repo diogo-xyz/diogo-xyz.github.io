@@ -1,0 +1,28 @@
+{%- comment -%} Metadata and tags of a writeup (param: writeup). Shared by the modal and the writeup page. {%- endcomment -%}
+{%- assign _wm = include.writeup -%}
+{%- assign _wm_ctf = site.data.ctfs | where: "id", _wm.ctf | first -%}
+{%- assign _wm_category = site.data.ctf_categories | where: "id", _wm.category | first -%}
+{%- if _wm.ctf -%}{%- unless _wm_ctf %}
+<!-- build warning: writeup "{{ _wm.ref }}" references unknown ctf "{{ _wm.ctf | escape }}" -->
+{%- endunless -%}{%- endif %}
+<dl class="meta">
+  {%- if _wm.ctf %}
+  <div><dt>CTF</dt><dd><a href="{{ '/writeups/' | relative_url }}?ctf={{ _wm.ctf | escape }}">{{ _wm_ctf.name | default: _wm.ctf | escape }}</a></dd></div>
+  {%- endif %}
+  {%- if _wm.category %}
+  <div><dt>Category</dt><dd>{{ _wm_category.name | default: _wm.category | escape }}</dd></div>
+  {%- endif %}
+  {%- if _wm.difficulty %}
+  <div><dt>Difficulty</dt><dd><span class="difficulty difficulty--{{ _wm.difficulty | escape }}">{{ _wm.difficulty | escape }}</span></dd></div>
+  {%- endif %}
+  {%- if _wm.points %}
+  <div><dt>Points</dt><dd>{{ _wm.points }}</dd></div>
+  {%- endif %}
+</dl>
+{%- if _wm.tags.size > 0 %}
+<ul class="chip-list" aria-label="Tags">
+  {%- for _wm_tag in _wm.tags %}
+  <li class="chip chip--static">#{{ _wm_tag | escape }}</li>
+  {%- endfor %}
+</ul>
+{%- endif -%}

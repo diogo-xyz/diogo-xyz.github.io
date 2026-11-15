@@ -1,0 +1,40 @@
+{%- comment -%}
+  Helper without output. Given an item of timeline.yml or ctfs.yml (param: event),
+  sets these variables for the caller:
+
+    ev_type      education | experience | volunteering | hackathon | ctf
+    ev_group     education | experience | achievement   (filter group and colour)
+    ev_point     true for point events (hackathons, CTFs), false for branches
+    ev_title     display title: organization for experience, title/name otherwise
+    ev_subtitle  current role for experience, organization/team otherwise
+    ev_result    result or placement, if any
+{%- endcomment -%}
+{%- assign _ev_item = include.event -%}
+{%- assign ev_type = _ev_item.type | default: "ctf" -%}
+{%- assign ev_point = false -%}
+{%- assign ev_result = _ev_item.result | default: _ev_item.placement -%}
+{%- case ev_type -%}
+  {%- when "education" -%}
+    {%- assign ev_group = "education" -%}
+    {%- assign ev_title = _ev_item.title -%}
+    {%- assign ev_subtitle = _ev_item.organization -%}
+  {%- when "experience", "volunteering" -%}
+    {%- assign ev_group = "experience" -%}
+    {%- assign ev_title = _ev_item.organization | default: _ev_item.title -%}
+    {%- assign ev_subtitle = _ev_item.title -%}
+    {%- if _ev_item.milestones -%}
+      {%- assign _ev_last = _ev_item.milestones | sort: "date" | last -%}
+      {%- assign ev_subtitle = _ev_last.title | default: _ev_item.title -%}
+    {%- endif -%}
+  {%- when "ctf" -%}
+    {%- assign ev_group = "achievement" -%}
+    {%- assign ev_point = true -%}
+    {%- assign ev_title = _ev_item.name | default: _ev_item.title -%}
+    {%- assign ev_subtitle = "" -%}
+    {%- if _ev_item.team -%}{%- assign ev_subtitle = "Team " | append: _ev_item.team -%}{%- endif -%}
+  {%- else -%}
+    {%- assign ev_group = "achievement" -%}
+    {%- assign ev_point = true -%}
+    {%- assign ev_title = _ev_item.title | default: _ev_item.name -%}
+    {%- assign ev_subtitle = _ev_item.organization -%}
+{%- endcase -%}

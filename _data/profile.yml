@@ -1,0 +1,17 @@
+name: "Your Name"                                  # TODO: replace
+headline: "MSc Information Security @ FCUP"
+location: "Porto, Portugal"
+photo: /assets/img/profile.jpg                     # TODO: replace the placeholder image
+#cv: /assets/docs/cv.pdf                            # TODO: replace the placeholder PDF
+bio: |                                             # markdown. TODO: replace
+  I'm a Master's student in Information Security at FCUP,
+  with a background in AI and Data Science.
+interests:
+  - Web Security
+  - Reverse Engineering
+  - Machine Learning
+  - Cryptography
+socials:
+  github: https://github.com/<username>             # TODO: replace
+  linkedin: https://www.linkedin.com/in/<handle>    # TODO: replace
+  email: you@example.com                            # TODO: replace

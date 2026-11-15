@@ -1,0 +1,19 @@
+---
+layout: default
+---
+<article class="container section entry">
+  <p class="entry__back"><a href="{{ '/projects/' | relative_url }}">← Back to projects</a></p>
+  <header class="entry__header">
+    <h1 class="entry__title">{{ page.title | escape }}</h1>
+    {%- if page.summary %}
+    <p class="entry__summary">{{ page.summary | escape }}</p>
+    {%- endif %}
+    {% include project-meta.html project=page %}
+  </header>
+  {%- if page.cover %}
+  <img class="entry__cover" src="{{ page.cover }}" alt="" width="1280" height="720">
+  {%- endif %}
+  <div class="prose">
+    {{ content | replace: '<img ', '<img loading="lazy" ' }}
+  </div>
+</article>

@@ -1,0 +1,8 @@
+<section id="interests" class="section container" aria-labelledby="interests-title">
+  <h2 id="interests-title" class="section__title">~/interests</h2>
+  <ul class="chip-list">
+    {%- for interest in site.data.profile.interests %}
+    <li class="chip chip--static">{{ interest | escape }}</li>
+    {%- endfor %}
+  </ul>
+</section>

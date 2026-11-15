@@ -1,0 +1,19 @@
+{%- comment -%}
+  Helper: looks up an event by id (param: id) in timeline.yml, then ctfs.yml.
+  Sets `ref_event` (nil when not found) and `ref_event_title` for the caller.
+  An unknown id never breaks the build: it only leaves a warning comment in the HTML.
+{%- endcomment -%}
+{%- assign ref_event = nil -%}
+{%- assign ref_event_title = "" -%}
+{%- if include.id -%}
+  {%- assign ref_event = site.data.timeline | where: "id", include.id | first -%}
+  {%- unless ref_event -%}
+    {%- assign ref_event = site.data.ctfs | where: "id", include.id | first -%}
+  {%- endunless -%}
+  {%- if ref_event -%}
+    {%- include event-vars.html event=ref_event -%}
+    {%- assign ref_event_title = ev_title -%}
+  {%- else -%}
+    <!-- build warning: unknown event id "{{ include.id | escape }}" (not in timeline.yml or ctfs.yml) -->
+  {%- endif -%}
+{%- endif -%}

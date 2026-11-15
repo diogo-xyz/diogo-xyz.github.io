@@ -1,0 +1,44 @@
+# Site settings -------------------------------------------------------------
+title: "Paulo Diogo"
+description: "MSc Information Security student @ FCUP"
+url: "https://diogo-xyz.github.io"
+baseurl: ""
+lang: en
+
+# Timeline -------------------------------------------------------------------
+timeline:
+  default_order: newest                 # newest | oldest
+
+# Collections ----------------------------------------------------------------
+collections:
+  projects:
+    output: true
+  writeups:
+    output: true
+
+defaults:
+  # `render_with_liquid: false` lets you paste payloads such as {{7*7}} or {% ... %}
+  # into projects and writeups without Jekyll trying to run them.
+  - scope: { path: "", type: projects }
+    values: { layout: project, render_with_liquid: false }
+  - scope: { path: "", type: writeups }
+    values: { layout: writeup, render_with_liquid: false }
+  # Keep the CV and certificate PDFs out of sitemap.xml.
+  - scope: { path: "assets/docs" }
+    values: { sitemap: false }
+
+# Markdown -------------------------------------------------------------------
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Plugins --------------------------------------------------------------------
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - README.md
+  - LICENSE

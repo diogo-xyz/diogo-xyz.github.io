@@ -1,0 +1,37 @@
+{%- comment -%}
+  Formats partial ISO dates, keeping the precision they were written with:
+    "2024" -> 2024    "2024-10" -> Oct 2024    "2024-10-15" -> 15 Oct 2024
+
+  Usage:
+    {% include date.html date=item.date %}                    one date
+    {% include date.html start=item.start end=item.end %}     range; empty end = "Present"
+    {% include date.html start=item.start end=item.end single=true %}
+                                                              point event; empty end = start only
+
+  Keep in sync with assets/js/dates.js (same rules, same output).
+{%- endcomment -%}
+{%- assign _dt_months = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec" | split: "," -%}
+{%- assign _dt_first = include.date | default: include.start | append: "" | strip | slice: 0, 10 -%}
+{%- assign _dt_last = include.end | append: "" | strip | slice: 0, 10 -%}
+{%- assign _dt_values = _dt_first | append: "|" | append: _dt_last | split: "|" -%}
+{%- assign _dt_out = "" | split: "" -%}
+{%- for _dt_value in _dt_values -%}
+  {%- assign _dt_parts = _dt_value | split: "-" -%}
+  {%- assign _dt_month = _dt_parts[1] | plus: 0 | minus: 1 -%}
+  {%- if _dt_parts.size < 2 or _dt_month < 0 or _dt_month > 11 -%}
+    {%- assign _dt_text = _dt_parts[0] -%}
+  {%- elsif _dt_parts.size == 2 -%}
+    {%- assign _dt_text = _dt_months[_dt_month] | append: " " | append: _dt_parts[0] -%}
+  {%- else -%}
+    {%- assign _dt_day = _dt_parts[2] | plus: 0 -%}
+    {%- assign _dt_text = _dt_day | append: " " | append: _dt_months[_dt_month] | append: " " | append: _dt_parts[0] -%}
+  {%- endif -%}
+  {%- assign _dt_out = _dt_out | push: _dt_text -%}
+{%- endfor -%}
+{%- if _dt_out.size == 2 and _dt_out[0] != _dt_out[1] -%}
+  {{- _dt_out[0] }} – {{ _dt_out[1] -}}
+{%- elsif _dt_out.size == 2 or include.date or include.single -%}
+  {{- _dt_out[0] -}}
+{%- elsif _dt_out.size == 1 -%}
+  {{- _dt_out[0] }} – Present
+{%- endif -%}

@@ -1,0 +1,27 @@
+{%- comment -%}
+  Table of contents built from rendered HTML (param: html). Lists the h2 and h3
+  headings, and only appears when there are three or more of them.
+  Relies on the ids kramdown adds to headings.
+{%- endcomment -%}
+{%- assign _toc_marked = include.html | replace: '<h3 id="', '<h2 id="@' -%}
+{%- assign _toc_chunks = _toc_marked | split: '<h2 id="' -%}
+{%- assign _toc_count = _toc_chunks.size | minus: 1 -%}
+{%- if _toc_count >= 3 %}
+<nav class="toc" aria-labelledby="toc-title">
+  <h2 id="toc-title" class="toc__title">Contents</h2>
+  <ol class="toc__list">
+    {%- for _toc_chunk in _toc_chunks offset: 1 -%}
+      {%- assign _toc_id = _toc_chunk | split: '"' | first -%}
+      {%- assign _toc_cut = _toc_id | append: '">' -%}
+      {%- assign _toc_text = _toc_chunk | split: "</h" | first | remove_first: _toc_cut | strip_html | strip -%}
+      {%- assign _toc_level = 2 -%}
+      {%- assign _toc_mark = _toc_id | slice: 0 -%}
+      {%- if _toc_mark == "@" -%}
+        {%- assign _toc_level = 3 -%}
+        {%- assign _toc_id = _toc_id | remove_first: "@" -%}
+      {%- endif %}
+    <li class="toc__item toc__item--h{{ _toc_level }}"><a href="#{{ _toc_id }}">{{ _toc_text }}</a></li>
+    {%- endfor %}
+  </ol>
+</nav>
+{%- endif -%}

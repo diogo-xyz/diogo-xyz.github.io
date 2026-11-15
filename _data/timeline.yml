@@ -1,0 +1,76 @@
+# type: education | experience | hackathon | volunteering (reserved, not used yet)
+# education/experience = branches (have start + optional end)
+# hackathon = point event on main (uses start; end optional)
+
+- id: msc-information-security
+  type: education
+  title: MSc in Information Security
+  organization: Faculty of Sciences, University of Porto (FCUP)
+  location: Porto, Portugal
+  start: "2025-09"                     # TODO: replace
+  end:                                 # empty = Present
+  summary: Master's focused on offensive and defensive security.
+  details: |                           # markdown, shown in the modal. TODO: replace
+    Longer **markdown** text shown in the modal.
+  tags: [Security, Cryptography]
+  links:
+    - name: Programme page
+      url: https://www.up.pt/fcup/      # TODO: replace
+  milestones:
+    - date: "2026-02"
+      title: Started dissertation
+      description: Topic TBD.           # TODO: replace
+
+- id: bsc-ai-data-science
+  type: education
+  title: BSc in Artificial Intelligence and Data Science
+  organization: Faculty of Sciences, University of Porto (FCUP)
+  start: "2022-09"                     # TODO: replace
+  end: "2025-07"                       # TODO: replace
+  summary: Bachelor's in AI and Data Science.
+  details: |                           # TODO: replace
+    Final grade, favourite courses, final project…
+  links:
+    - name: Programme page
+      url: https://www.up.pt/fcup/      # TODO: replace
+  projects: [example-ml-project]
+
+- id: junior-enterprise
+  type: experience
+  tag: Student organization
+  organization: Junior Enterprise X    # TODO: replace
+  title: Member                        # role at the START
+  start: "2024-10"                     # TODO: replace
+  end:
+  summary: Junior enterprise at the University of Porto.
+  links:
+    - name: Junior Enterprise X
+      url: https://example.com          # TODO: replace
+  milestones:                          # role changes AFTER start
+    - date: "2026-01-15"
+      title: Project Manager
+      kind: promotion                  # promotion -> "↑" icon
+      description: Leading a team of 5 on client projects. # TODO: replace
+
+- id: updigital-internship
+  type: experience
+  organization: UpDigital              # TODO: confirm
+  title: Intern
+  start: "2024-06"                     # TODO: replace
+  end: "2024-10"                       # TODO: replace
+  summary: Summer internship.
+  links:
+    - name: UpDigital
+      url: https://example.com          # TODO: replace
+
+- id: hackathon-x-2026
+  type: hackathon
+  title: Hackathon X                   # TODO: replace
+  organization: Organizer X
+  location: Porto, Portugal
+  start: "2026-03-14"
+  end: "2026-03-15"
+  result: 2nd place
+  highlight: true                      # gold badge
+  summary: Built a phishing detection tool in 48h.
+  projects: [phishguard]

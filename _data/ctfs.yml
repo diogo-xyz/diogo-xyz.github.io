@@ -1,0 +1,19 @@
+- id: picoctf-2025
+  name: picoCTF 2025
+  start: "2025-03-07"
+  end: "2025-03-17"
+  in_person: false                     # false -> only listed on the writeups page
+  team: TeamName                       # TODO: replace
+  placement: "45th / 10,000+"          # TODO: replace
+  url: https://picoctf.org
+  ctftime: https://ctftime.org/event/XXXX   # TODO: replace
+  summary: Beginner-friendly jeopardy CTF.
+
+- id: example-onsite-ctf-2025
+  name: Example On-site CTF 2025       # TODO: replace
+  start: "2025-04-12"                  # TODO: replace
+  in_person: true                      # true -> also shown on the timeline as an achievement
+  location: Lisbon, Portugal           # TODO: replace
+  team: TeamName                       # TODO: replace
+  placement: 5th                       # TODO: replace
+  summary: On-site attack/defense CTF.

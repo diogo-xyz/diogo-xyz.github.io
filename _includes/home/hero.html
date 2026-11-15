@@ -1,0 +1,28 @@
+{%- assign profile = site.data.profile -%}
+<section class="hero container" aria-labelledby="hero-name">
+  {%- if profile.photo %}
+  <img class="hero__photo" src="{{ profile.photo | relative_url }}" alt="Portrait of {{ profile.name | escape }}" width="168" height="168">
+  {%- endif %}
+  <div class="hero__body">
+    <h1 id="hero-name" class="hero__name">{{ profile.name | escape }}</h1>
+    <div class="terminal">
+      <p class="terminal__line"><span class="terminal__prompt" aria-hidden="true">$</span> whoami</p>
+      <p class="terminal__out">{{ profile.headline | escape }}</p>
+      {%- if profile.location %}
+      <p class="terminal__out terminal__out--muted">{{ profile.location | escape }}</p>
+      {%- endif %}
+      <p class="terminal__line" aria-hidden="true"><span class="terminal__prompt">$</span> <span class="terminal__cursor"></span></p>
+    </div>
+    <ul class="hero__actions">
+      {%- if profile.socials.github %}
+      <li><a class="button" href="{{ profile.socials.github | escape }}" rel="me noopener">GitHub</a></li>
+      {%- endif %}
+      {%- if profile.socials.linkedin %}
+      <li><a class="button" href="{{ profile.socials.linkedin | escape }}" rel="me noopener">LinkedIn</a></li>
+      {%- endif %}
+      {%- if profile.cv %}
+      <li><a class="button button--primary" href="{{ profile.cv | relative_url }}" download>Download CV</a></li>
+      {%- endif %}
+    </ul>
+  </div>
+</section>

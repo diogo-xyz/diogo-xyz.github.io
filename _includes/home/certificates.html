@@ -1,0 +1,38 @@
+{%- assign _cert_empty = "" | split: "" -%}
+{%- assign _cert_list = site.data.certificates | default: _cert_empty | sort: "date" | reverse -%}
+<section id="certificates" class="section container" aria-labelledby="certificates-title">
+  <h2 id="certificates-title" class="section__title">~/certificates</h2>
+  <details class="drawer">
+    <summary class="drawer__summary">Certificates &amp; Awards ({{ _cert_list.size }})</summary>
+    <div class="drawer__body">
+      {%- for cert in _cert_list %}
+      <details class="cert" id="cert-{{ cert.id }}">
+        <summary class="cert__summary">
+          <span class="badge badge--{{ cert.kind | default: 'certification' }}">{{ cert.kind | default: "certification" | capitalize }}</span>
+          <span class="cert__title">{{ cert.title | escape }}</span>
+          <span class="cert__meta">{{ cert.issuer | escape }}{% if cert.issuer and cert.date %} · {% endif %}{% include date.html date=cert.date %}</span>
+        </summary>
+        <div class="cert__body">
+          {%- if cert.description %}
+          <p>{{ cert.description | escape }}</p>
+          {%- endif %}
+          {%- if cert.file or cert.verify_url %}
+          <p class="cert__actions">
+            {%- if cert.file %}
+            <a class="button button--small" href="{{ cert.file | relative_url }}">View certificate</a>
+            {%- endif %}
+            {%- if cert.verify_url %}
+            <a class="button button--small" href="{{ cert.verify_url | escape }}" target="_blank" rel="noopener">Verify ↗</a>
+            {%- endif %}
+          </p>
+          {%- endif %}
+          {%- include event-ref.html id=cert.event -%}
+          {%- if ref_event %}
+          <p class="cert__related">Related: <button type="button" class="link-button" data-modal="modal-{{ ref_event.id }}" disabled>{{ ref_event_title | escape }}</button></p>
+          {%- endif %}
+        </div>
+      </details>
+      {%- endfor %}
+    </div>
+  </details>
+</section>

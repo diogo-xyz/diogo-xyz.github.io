@@ -1,0 +1,2 @@
+# Order of the home page sections. Each name maps to _includes/home/<name>.html
+sections: [hero, about, interests, timeline, certificates, contact]

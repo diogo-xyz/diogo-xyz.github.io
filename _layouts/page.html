@@ -1,0 +1,14 @@
+---
+layout: default
+---
+{%- comment -%}
+  Generic page (use it for new tabs). Front matter:
+    title    required
+    heading  optional, shown instead of the title (e.g. "~/talks")
+{%- endcomment -%}
+<article class="container section">
+  <h1 class="page-title">{{ page.heading | default: page.title | escape }}</h1>
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

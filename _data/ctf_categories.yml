@@ -1,0 +1,8 @@
+# CTF categories (writeups): display names only.
+- { id: web, name: Web }
+- { id: pwn, name: Pwn }
+- { id: crypto, name: Crypto }
+- { id: rev, name: Reverse Engineering }
+- { id: forensics, name: Forensics }
+- { id: misc, name: Misc }
+- { id: osint, name: OSINT }

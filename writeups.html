@@ -1,0 +1,149 @@
+---
+layout: default
+title: Writeups
+description: CTF writeups, grouped by competition.
+permalink: /writeups/
+---
+{%- assign _empty = "" | split: "" -%}
+{%- assign _ctfs = site.data.ctfs | default: _empty | sort: "start" | reverse -%}
+{%- assign _ctf_ids = _ctfs | map: "id" -%}
+{%- assign _category_ids = site.data.ctf_categories | map: "id" -%}
+
+{%- comment -%} Only CTFs and categories that have writeups are offered as filters. {%- endcomment -%}
+{%- assign _used_categories = _empty -%}
+{%- assign _orphan_ctfs = _empty -%}
+{%- for writeup in site.writeups -%}
+  {%- unless _used_categories contains writeup.category -%}
+    {%- assign _used_categories = _used_categories | push: writeup.category -%}
+  {%- endunless -%}
+  {%- assign _writeup_ctf = writeup.ctf | default: "__none__" -%}
+  {%- unless _ctf_ids contains _writeup_ctf -%}
+    {%- unless _orphan_ctfs contains _writeup_ctf -%}
+      {%- assign _orphan_ctfs = _orphan_ctfs | push: _writeup_ctf -%}
+    {%- endunless -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+<section class="container section writeups">
+  <h1 class="page-title">~/writeups</h1>
+
+  <div class="filters js-only" data-filter-root data-filter-target="#writeup-list">
+    <label class="select">
+      <span class="select__label">CTF</span>
+      <select data-filter-facet="ctf">
+        <option value="">All</option>
+        {%- for ctf in _ctfs -%}
+          {%- assign _count = site.writeups | where: "ctf", ctf.id | size -%}
+          {%- if _count > 0 %}
+        <option value="{{ ctf.id | escape }}">{{ ctf.name | default: ctf.id | escape }}</option>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for orphan in _orphan_ctfs -%}
+          {%- if orphan != "__none__" %}
+        <option value="{{ orphan | escape }}">{{ orphan | escape }}</option>
+          {%- endif -%}
+        {%- endfor %}
+      </select>
+    </label>
+    <div class="chip-group" role="group" aria-label="Filter by category" data-filter-facet="category">
+      <button type="button" class="chip" data-value="" aria-pressed="true">All</button>
+      {%- for category in site.data.ctf_categories -%}
+        {%- if _used_categories contains category.id %}
+      <button type="button" class="chip" data-value="{{ category.id | escape }}" aria-pressed="false">{{ category.name | default: category.id | escape }}</button>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for category in _used_categories -%}
+        {%- unless _category_ids contains category %}
+      <button type="button" class="chip" data-value="{{ category | escape }}" aria-pressed="false">{{ category | escape }}</button>
+        {%- endunless -%}
+      {%- endfor %}
+    </div>
+    <label class="search">
+      <span class="visually-hidden">Search writeups by title, summary or tag</span>
+      <input type="search" placeholder="Search title, summary, tags" autocomplete="off" data-filter-search>
+    </label>
+    <p class="filters__count" data-filter-count aria-live="polite"></p>
+  </div>
+
+  <div id="writeup-list">
+    {%- for ctf in _ctfs -%}
+      {%- include ctf-writeups.html ctf=ctf.id -%}
+      {%- if ctf_writeups.size > 0 %}
+    <section class="ctf-group" data-filter-section aria-labelledby="ctf-{{ ctf.id }}">
+      <header class="ctf-group__header">
+        <h2 id="ctf-{{ ctf.id }}" class="ctf-group__title">
+          {{- ctf.name | default: ctf.id | escape -}}
+          {%- if ctf.in_person %} <span class="badge badge--onsite">On-site</span>{% endif -%}
+        </h2>
+        <p class="ctf-group__meta">
+          <span>{% include date.html start=ctf.start end=ctf.end single=true %}</span>
+          {%- if ctf.location %}
+          <span>{{ ctf.location | escape }}</span>
+          {%- endif %}
+          {%- if ctf.team %}
+          <span>Team {{ ctf.team | escape }}</span>
+          {%- endif %}
+          {%- if ctf.placement %}
+          <span>Placed {{ ctf.placement | escape }}</span>
+          {%- endif %}
+          {%- if ctf.url %}
+          <a href="{{ ctf.url | escape }}" target="_blank" rel="noopener">Website ↗</a>
+          {%- endif %}
+          {%- if ctf.ctftime %}
+          <a href="{{ ctf.ctftime | escape }}" target="_blank" rel="noopener">CTFtime ↗</a>
+          {%- endif %}
+        </p>
+      </header>
+      <ul class="writeup-list">
+        {%- for writeup in ctf_writeups %}
+        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }}">
+          {% include writeup-card.html writeup=writeup ctf_name=ctf.name %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- comment -%} Writeups whose `ctf` is empty or missing from ctfs.yml still show up, in a group of their own. {%- endcomment -%}
+    {%- for orphan in _orphan_ctfs -%}
+      {%- if orphan == "__none__" -%}
+        {%- include ctf-writeups.html ctf=nil -%}
+        {%- assign _orphan_name = "Other" -%}
+      {%- else -%}
+        {%- include ctf-writeups.html ctf=orphan -%}
+        {%- assign _orphan_name = orphan -%}
+      {%- endif %}
+    <!-- build warning: writeups without a known ctf are listed under "{{ _orphan_name | escape }}" (check `ctf:` and _data/ctfs.yml) -->
+    <section class="ctf-group" data-filter-section aria-labelledby="ctf-{{ _orphan_name | slugify }}">
+      <header class="ctf-group__header">
+        <h2 id="ctf-{{ _orphan_name | slugify }}" class="ctf-group__title">{{ _orphan_name | escape }}</h2>
+      </header>
+      <ul class="writeup-list">
+        {%- for writeup in ctf_writeups %}
+        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }}">
+          {% include writeup-card.html writeup=writeup ctf_name=_orphan_name %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </section>
+    {%- endfor %}
+  </div>
+  <p class="empty-state" data-filter-empty hidden>No writeups match these filters. Clear the search or set both filters to "All".</p>
+</section>
+
+{%- for writeup in site.writeups %}
+<template id="modal-{{ writeup.uid }}">
+  <article class="detail">
+    <header class="detail__header">
+      <p class="detail__kind">Writeup</p>
+      <h2 class="detail__title">{{ writeup.title | escape }}</h2>
+      {%- if writeup.summary %}
+      <p class="detail__summary">{{ writeup.summary | escape }}</p>
+      {%- endif %}
+    </header>
+    {% include writeup-meta.html writeup=writeup %}
+    <p class="detail__more"><a class="button button--primary" href="{{ writeup.url | relative_url }}">Read full writeup →</a></p>
+  </article>
+</template>
+{%- endfor %}

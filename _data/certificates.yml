@@ -1,0 +1,25 @@
+# kind: certification | award | participation
+- id: merit-award-1st-year
+  kind: award
+  title: Merit Award, 1st year          # TODO: replace
+  issuer: University of Porto
+  date: "2023-11"
+  description: Awarded to the top students of the year.
+  file: /assets/docs/certificates/merit-1st-year.pdf   # TODO: replace the placeholder PDF
+  event: bsc-ai-data-science           # optional: id from timeline.yml or ctfs.yml
+
+- id: merit-award-2nd-year
+  kind: award
+  title: Merit Award, 2nd year          # TODO: replace
+  issuer: University of Porto
+  date: "2024-11"
+  event: bsc-ai-data-science
+
+- id: hackathon-x-certificate
+  kind: participation
+  title: Hackathon X, 2nd place         # TODO: replace
+  issuer: Organizer X
+  date: "2026-03-15"
+  file: /assets/docs/certificates/hackathon-x.pdf      # TODO: replace the placeholder PDF
+  verify_url:                          # optional (Credly, etc.)
+  event: hackathon-x-2026

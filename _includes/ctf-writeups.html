@@ -1,0 +1,11 @@
+{%- comment -%}
+  Helper without output. Sets `ctf_writeups`: the writeups of one CTF (param: ctf, an id),
+  ordered by category and then by points. The writeups list and the Previous / Next
+  links both use it, so they always agree on the order.
+{%- endcomment -%}
+{%- assign ctf_writeups = "" | split: "" -%}
+{%- assign _cw_groups = site.writeups | where: "ctf", include.ctf | group_by: "category" | sort: "name" -%}
+{%- for _cw_group in _cw_groups -%}
+  {%- assign _cw_items = _cw_group.items | sort: "points" -%}
+  {%- assign ctf_writeups = ctf_writeups | concat: _cw_items -%}
+{%- endfor -%}

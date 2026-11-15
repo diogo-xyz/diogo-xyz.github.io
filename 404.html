@@ -1,0 +1,15 @@
+---
+layout: default
+title: Page not found
+permalink: /404.html
+sitemap: false
+---
+<section class="container section not-found">
+  <h1 class="page-title">404</h1>
+  <div class="terminal">
+    <p class="terminal__line"><span class="terminal__prompt" aria-hidden="true">$</span> cd <span data-requested-path>/requested-page</span></p>
+    <p class="terminal__out terminal__out--error">bash: cd: <span data-requested-path>/requested-page</span>: No such file or directory</p>
+    <p class="terminal__line"><span class="terminal__prompt" aria-hidden="true">$</span> <a href="{{ '/' | relative_url }}">cd ~</a></p>
+  </div>
+  <p class="not-found__hint">That page does not exist. <a href="{{ '/' | relative_url }}">Go back home</a>, or use the menu above.</p>
+</section>

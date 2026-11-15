@@ -1,0 +1,19 @@
+---
+layout: default
+title: Home
+---
+{%- comment -%} Sections come from _data/home.yml; each name maps to _includes/home/<name>.html {%- endcomment -%}
+{%- for section in site.data.home.sections %}
+{% include home/{{ section }}.html %}
+{%- endfor %}
+
+{%- comment -%}
+  Modal content for every timeline entry and every CTF. Rendered here, outside
+  the sections, so "Related" links keep working whatever sections are enabled.
+{%- endcomment -%}
+{%- for event in site.data.timeline %}
+{% include event-modal.html event=event %}
+{%- endfor -%}
+{%- for event in site.data.ctfs %}
+{% include event-modal.html event=event %}
+{%- endfor %}

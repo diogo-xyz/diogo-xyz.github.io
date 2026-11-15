@@ -1,0 +1,14 @@
+{%- comment -%} One row of the writeups list (params: writeup, ctf_name). Opens the modal; without JS it links to the writeup page. {%- endcomment -%}
+{%- assign _wc = include.writeup -%}
+{%- assign _wc_category = site.data.ctf_categories | where: "id", _wc.category | first -%}
+<a class="writeup-row" href="{{ _wc.url | relative_url }}" data-modal="modal-{{ _wc.uid }}">
+  <span class="writeup-row__category">{{ _wc_category.name | default: _wc.category | escape }}</span>
+  <span class="writeup-row__title">{{ _wc.title | escape }}</span>
+  <span class="writeup-row__ctf">{{ include.ctf_name | escape }}</span>
+  {%- if _wc.difficulty %}
+  <span class="difficulty difficulty--{{ _wc.difficulty | escape }}">{{ _wc.difficulty | escape }}</span>
+  {%- endif %}
+  {%- if _wc.points %}
+  <span class="writeup-row__points">{{ _wc.points }} pts</span>
+  {%- endif %}
+</a>

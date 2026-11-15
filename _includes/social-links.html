@@ -1,0 +1,27 @@
+{%- comment -%}
+  Lists every entry of profile.socials. The key becomes the label.
+  The `email` entry is never written as plain text: main.js assembles the
+  mailto link from data-email-user / data-email-domain.
+{%- endcomment -%}
+<ul class="social-list">
+  {%- for _social in site.data.profile.socials -%}
+    {%- assign _social_key = _social[0] -%}
+    {%- assign _social_value = _social[1] -%}
+    {%- if _social_value -%}
+      {%- case _social_key -%}
+        {%- when "github" -%}{%- assign _social_label = "GitHub" -%}
+        {%- when "linkedin" -%}{%- assign _social_label = "LinkedIn" -%}
+        {%- when "ctftime" -%}{%- assign _social_label = "CTFtime" -%}
+        {%- else -%}{%- assign _social_label = _social_key | capitalize -%}
+      {%- endcase %}
+  <li>
+      {%- if _social_key == "email" -%}
+        {%- assign _mail = _social_value | split: "@" %}
+    <span class="email" data-email-user="{{ _mail[0] | escape }}" data-email-domain="{{ _mail[1] | escape }}">{{ _mail[0] | escape }} [at] {{ _mail[1] | escape }}</span>
+      {%- else %}
+    <a href="{{ _social_value | escape }}" rel="me noopener">{{ _social_label }}</a>
+      {%- endif %}
+  </li>
+    {%- endif -%}
+  {%- endfor %}
+</ul>

@@ -1,0 +1,72 @@
+{%- comment -%}
+  Timeline. Liquid always renders the plain list below (what you see without
+  JavaScript and on screens under 720px). On wider screens timeline.js reads the
+  embedded JSON and draws the git-style graph in [data-tl-graph].
+{%- endcomment -%}
+{%- assign _tl_empty = "" | split: "" -%}
+{%- assign _tl_entries = site.data.timeline | default: _tl_empty -%}
+{%- assign _tl_onsite = site.data.ctfs | default: _tl_empty | where: "in_person", true -%}
+{%- assign _tl_items = _tl_entries | concat: _tl_onsite | sort: "start" -%}
+{%- assign _tl_order = site.timeline.default_order | default: "newest" -%}
+{%- if _tl_order != "oldest" -%}
+  {%- assign _tl_order = "newest" -%}
+  {%- assign _tl_items = _tl_items | reverse -%}
+{%- endif -%}
+<section id="timeline" class="section container" aria-labelledby="timeline-title">
+  <h2 id="timeline-title" class="section__title">~/timeline</h2>
+
+  <div class="tl-controls js-only">
+    <div class="chip-group" role="group" aria-label="Filter the timeline">
+      <button type="button" class="chip" data-tl-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="chip chip--education" data-tl-filter="education" aria-pressed="false">Education</button>
+      <button type="button" class="chip chip--experience" data-tl-filter="experience" aria-pressed="false">Experience</button>
+      <button type="button" class="chip chip--achievement" data-tl-filter="achievement" aria-pressed="false">Achievements</button>
+    </div>
+    <button type="button" class="button button--small" data-tl-order></button>
+  </div>
+
+  <div class="tl" data-timeline data-default-order="{{ _tl_order }}">
+    <div class="tl__graph" data-tl-graph></div>
+
+    <ol class="tl-list" data-tl-list>
+      {%- for item in _tl_items -%}
+        {%- include event-vars.html event=item %}
+      <li class="tl-item is-{{ ev_group }}" data-group="{{ ev_group }}" data-start="{{ item.start }}">
+        <h3 class="tl-item__title">
+          <button type="button" class="tl-item__open" data-modal="modal-{{ item.id }}" disabled>{{ ev_title | escape }}</button>
+          {%- if ev_result %} <span class="badge badge--result{% if item.highlight %} badge--gold{% endif %}">{{ ev_result | escape }}</span>{% endif %}
+        </h3>
+        <p class="tl-item__meta">
+          {%- if ev_subtitle and ev_subtitle != "" %}<span class="tl-item__subtitle">{{ ev_subtitle | escape }}</span>{% endif %}
+          <span class="tl-item__period">
+            {%- if ev_point -%}
+              {%- include date.html start=item.start end=item.end single=true -%}
+            {%- else -%}
+              {%- include date.html start=item.start end=item.end -%}
+            {%- endif -%}
+          </span>
+        </p>
+        {%- if item.summary %}
+        <p class="tl-item__summary">{{ item.summary | escape }}</p>
+        {%- endif %}
+        {%- if item.milestones %}
+        <ul class="tl-item__milestones">
+          {%- assign _tl_milestones = item.milestones | sort: "date" -%}
+          {%- for milestone in _tl_milestones %}
+          <li>
+            <span class="tl-item__milestone-title">{% if milestone.kind == "promotion" %}<span aria-hidden="true">↑ </span>{% endif %}{{ milestone.title | escape }}</span>
+            <span class="tl-item__milestone-date">{% include date.html date=milestone.date %}{% if milestone.kind %} · {{ milestone.kind | escape }}{% endif %}</span>
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+
+  {%- comment -%} Data for timeline.js (no fetch): embedded as JSON. {%- endcomment %}
+  <script type="application/json" id="timeline-data">
+    {"entries": {{ _tl_entries | jsonify | replace: "</", "<\/" }}, "ctfs": {{ _tl_onsite | jsonify | replace: "</", "<\/" }}}
+  </script>
+</section>
