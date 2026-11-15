@@ -390,15 +390,3 @@ assets/fonts/            JetBrains Mono, self-hosted (SIL Open Font License, see
   project and writeup. Custom plugins are the reason the site is built by GitHub
   Actions rather than the classic Pages builder.
 - **No tracking.** No analytics, no third-party requests, no npm.
-
-## Before you publish
-
-Everything invented for the example content is marked with `TODO`:
-
-```sh
-grep -rn "TODO" _config.yml _data _projects _writeups
-```
-
-Also replace the placeholder files: `assets/img/profile.jpg`, `assets/docs/cv.pdf`,
-the PDFs in `assets/docs/certificates/`, and the images inside the example
-project and writeup folders.

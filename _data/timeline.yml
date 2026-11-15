@@ -7,70 +7,126 @@
   title: MSc in Information Security
   organization: Faculty of Sciences, University of Porto (FCUP)
   location: Porto, Portugal
-  start: "2025-09"                     # TODO: replace
+  start: "2026-09"
   end:                                 # empty = Present
-  summary: Master's focused on offensive and defensive security.
-  details: |                           # markdown, shown in the modal. TODO: replace
-    Longer **markdown** text shown in the modal.
-  tags: [Security, Cryptography]
+  summary: Master's degree focused on offensive and defensive security.
+  details: |                           # markdown, shown in the modal.
+    Building on my background in AI and Data Science to specialise in
+    security, with a particular interest in where the two fields meet:
+    making AI systems secure, and using AI to make systems more resilient.
+  #tags: [Security, Cryptography]
   links:
-    - name: Programme page
-      url: https://www.up.pt/fcup/      # TODO: replace
-  milestones:
-    - date: "2026-02"
-      title: Started dissertation
-      description: Topic TBD.           # TODO: replace
+    - name: Master's page
+      url: https://www.up.pt/fcup/pt/ensino/mestrados/cursos/fcup/6041/
+  #milestones:
+  #  - date: "2026-02"
+  #    title: Started dissertation
+  #    description: Topic TBD.
 
 - id: bsc-ai-data-science
   type: education
   title: BSc in Artificial Intelligence and Data Science
   organization: Faculty of Sciences, University of Porto (FCUP)
-  start: "2022-09"                     # TODO: replace
-  end: "2025-07"                       # TODO: replace
-  summary: Bachelor's in AI and Data Science.
-  details: |                           # TODO: replace
-    Final grade, favourite courses, final project…
-  links:
-    - name: Programme page
-      url: https://www.up.pt/fcup/      # TODO: replace
-  projects: [example-ml-project]
+  start: "2023-09"
+  end: "2026-07"
+  summary: Bachelor's degree in machine learning, data science and the mathematics behind them.
+  # optional extras for details: final grade, favourite courses, final project
+  details: |
+    Foundations in mathematics, statistics and programming, with a strong
+    focus on machine learning, deep learning and data engineering.
 
-- id: junior-enterprise
+    Twice awarded the **Impulso Jovens STEAM Merit Scholarship**. The degree
+    finished with a curricular internship at UPdigital, working on DevSecOps.
+  links:
+    - name: Bachelor's program page
+      url: https://www.up.pt/fcup/pt/ensino/licenciaturas/cursos/fcup/23521/
+  # projects: [example-ml-project]
+
+- id: juniorai-enterprise
   type: experience
   tag: Student organization
-  organization: Junior Enterprise X    # TODO: replace
-  title: Member                        # role at the START
-  start: "2024-10"                     # TODO: replace
-  end:
-  summary: Junior enterprise at the University of Porto.
+  organization: JuniorAI
+  title: AI Member                     # role at the START
+  start: "2025-07"
+  end:                                 # empty = Present
+  summary: Student-led consulting group delivering AI and Data Science projects to external clients.
+  details: |
+    As an **AI Member**, I contributed to client projects in applied machine
+    learning and data science, mainly supervised learning tasks, supporting
+    model development and delivery in a fast-paced, student-led consulting
+    environment.
   links:
-    - name: Junior Enterprise X
-      url: https://example.com          # TODO: replace
+    - name: JuniorAI on LinkedIn
+      url: https://www.linkedin.com/company/juniorai
   milestones:                          # role changes AFTER start
-    - date: "2026-01-15"
+    - date: "2025-09"
       title: Project Manager
       kind: promotion                  # promotion -> "↑" icon
-      description: Leading a team of 5 on client projects. # TODO: replace
+      description: Leading multidisciplinary teams that build Data Science and AI solutions for external clients, from client communication and requirements gathering to project planning and delivery.
+
+- id: inesctec-hosky
+  type: experience
+  tag: Research fellowship
+  organization: INESC TEC
+  title: Research Initiation Fellow (BII)
+  location: Porto, Portugal
+  start: "2025-09"
+  end: "2026-01"
+  summary: Research fellowship in the HOSKY project, applying AI and cybersecurity to public administration.
+  details: |
+    Research Initiation Fellowship in the **HOSKY** project, developing
+    cybersecurity, data science and AI solutions for public administration.
+
+    - Implemented real-time anomaly detection models for continuous data streams.
+    - Modelled and executed adversarial attacks against AI systems to expose
+      vulnerabilities and design proactive defences.
+    - Integrated human-in-the-loop workflows into the AI decision cycle, keeping
+      the system transparent, robust and adaptable.
+  links:
+    - name: INESC TEC
+      url: https://www.inesctec.pt
 
 - id: updigital-internship
   type: experience
-  organization: UpDigital              # TODO: confirm
-  title: Intern
-  start: "2024-06"                     # TODO: replace
-  end: "2024-10"                       # TODO: replace
-  summary: Summer internship.
-  links:
-    - name: UpDigital
-      url: https://example.com          # TODO: replace
+  tag: Curricular internship
+  organization: UPdigital
+  title: Cybersecurity Intern
+  start: "2026-03"
+  end: "2026-06"
+  summary: Built the security layer of a GitHub Actions CI/CD pipeline at the University of Porto.
+  details: |
+    Built the security layer of a GitHub Actions–based CI/CD workflow, so that
+    code shipped by development teams meets security requirements before it
+    reaches production.
 
-- id: hackathon-x-2026
+    - Designed secure CI/CD workflows covering the full cycle, from commit to deploy.
+    - Integrated SAST (Bandit, SonarQube, CodeQL, Snyk) and SCA for Python and
+      PL/SQL code and its dependencies, and explored DAST and container/IaC scanning.
+    - Defined quality gates that block vulnerable code, with remediation guides
+      for developers.
+    - Set up DefectDojo as the central platform for findings from every scanner.
+    - Designed a Git branching strategy adopted as the standard across
+      development teams.
+  links:
+    - name: UPdigital
+      url: https://www.up.pt/portal/pt/updigital
+
+- id: deeplearn-2025-hackathon
   type: hackathon
-  title: Hackathon X                   # TODO: replace
-  organization: Organizer X
-  location: Porto, Portugal
-  start: "2026-03-14"
-  end: "2026-03-15"
-  result: 2nd place
-  highlight: true                      # gold badge
-  summary: Built a phishing detection tool in 48h.
-  projects: [phishguard]
+  title: Gravitational Lensing Challenge
+  organization: DeepLearn 2025 (University of Maia & IRDTA)
+  location: Maia, Portugal
+  start: "2025-07-21"
+  end: "2025-07-25"
+  result: 3rd place
+  highlight: true                      # badge
+  summary: Deep learning hackathon at the 12th International School on Deep Learning.
+  details: |
+    Hackathon of the **12th International School on Deep Learning
+    (DeepLearn 2025)**, where teams tackled machine learning challenges from
+    physics and astronomy. Our team took on the gravitational lensing
+    challenge and finished in 3rd place.
+  # projects: [phishguard]
+  links:
+    - name: DeepLearn 2025
+      url: https://deeplearn.irdta.eu/2025
