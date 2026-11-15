@@ -1,25 +1,36 @@
 # kind: certification | award | participation
-- id: merit-award-1st-year
+- id: steam-scholarship-1st-year
   kind: award
-  title: Merit Award, 1st year          # TODO: replace
+  title: Impulso Jovens STEAM Merit Scholarship, 1st year
   issuer: University of Porto
-  date: "2023-11"
-  description: Awarded to the top students of the year.
-  file: /assets/docs/certificates/merit-1st-year.pdf   # TODO: replace the placeholder PDF
-  event: bsc-ai-data-science           # optional: id from timeline.yml or ctfs.yml
+  date: "2024"                         
+  description: Merit scholarship awarded for academic performance in the 1st year of the BSc.
+  file: /assets/docs/certificates/merit-1st-year.pdf
+  event: bsc-ai-data-science      
 
-- id: merit-award-2nd-year
+- id: steam-scholarship-2nd-year
   kind: award
-  title: Merit Award, 2nd year          # TODO: replace
+  title: Impulso Jovens STEAM Merit Scholarship, 2nd year
   issuer: University of Porto
-  date: "2024-11"
+  date: "2025"                         
+  description: Merit scholarship awarded for academic performance in the 2nd year of the BSc.
+  file: /assets/docs/certificates/merit-2nd-year.pdf
   event: bsc-ai-data-science
 
-- id: hackathon-x-certificate
+- id: deeplearn-2025-participation
   kind: participation
-  title: Hackathon X, 2nd place         # TODO: replace
-  issuer: Organizer X
-  date: "2026-03-15"
-  file: /assets/docs/certificates/hackathon-x.pdf      # TODO: replace the placeholder PDF
-  verify_url:                          # optional (Credly, etc.)
-  event: hackathon-x-2026
+  title: Deep Learning Hackathon, DeepLearn 2025
+  issuer: DeepLearn 2025 (University of Maia & IRDTA)
+  date: "2025-07-25"
+  description: Participation in the hackathon of the 12th International School on Deep Learning.
+  file: /assets/docs/certificates/participation-certificate-deep-learn.pdf
+  event: deeplearn-2025-hackathon
+
+- id: deeplearn-2025-3rd-place
+  kind: award
+  title: Gravitational Lensing Challenge, 3rd place
+  issuer: DeepLearn 2025 (University of Maia & IRDTA)
+  date: "2025-07"                      
+  description: 3rd place in the gravitational lensing challenge of the DeepLearn 2025 hackathon.
+  file: /assets/docs/certificates/Deep-learn-hackathon-award.pdf
+  event: deeplearn-2025-hackathon
