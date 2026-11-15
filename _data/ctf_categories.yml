@@ -6,3 +6,4 @@
 - { id: forensics, name: Forensics }
 - { id: misc, name: Misc }
 - { id: osint, name: OSINT }
+- { id: ai-ml, name: AI/ML }
