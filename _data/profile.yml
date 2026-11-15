@@ -1,17 +1,32 @@
-name: "Your Name"                                  # TODO: replace
-headline: "MSc Information Security @ FCUP"
+name: "Paulo Diogo"
+headline: "MSc Student in Computer Security @ FCUP | AI & Cybersecurity"
 location: "Porto, Portugal"
-photo: /assets/img/profile.jpg                     # TODO: replace the placeholder image
-#cv: /assets/docs/cv.pdf                            # TODO: replace the placeholder PDF
-bio: |                                             # markdown. TODO: replace
-  I'm a Master's student in Information Security at FCUP,
-  with a background in AI and Data Science.
+photo: /assets/img/profile.jpg
+#cv: /assets/docs/cv.pdf                            
+bio: |
+  I'm an AI & Data Science graduate from the University of Porto, currently
+  pursuing a Master's in Information Security at FCUP. My focus lies in
+  cybersecurity and artificial intelligence, both as standalone fields and in
+  the space where they meet: building AI that is secure by design, and using
+  AI to make systems more resilient.
+
+  I also play CTFs, mostly reverse engineering, binary exploitation and
+  forensics. This site is where I document what I learn along the way.
+
+  I was twice awarded the Impulso Jovens STEAM Merit Scholarship. Beyond
+  academics, six years as a federated competitive swimmer and four years of
+  karate shaped a lot of how I approach work today: discipline, consistency,
+  and the belief that real progress comes from showing up every day.
 interests:
-  - Web Security
   - Reverse Engineering
+  - Binary Exploitation
+  - Digital Forensics
+  - Hardware Security
+  - AI Security
+  - AI for Cybersecurity
+  - Data Science
   - Machine Learning
-  - Cryptography
 socials:
-  github: https://github.com/<username>             # TODO: replace
-  linkedin: https://www.linkedin.com/in/<handle>    # TODO: replace
-  email: you@example.com                            # TODO: replace
+  github: https://github.com/diogo-xyz
+  linkedin: www.linkedin.com/in/paulo-pinto-358019381
+  email: pdiogolp@gmail.com
