@@ -1,0 +1,35 @@
+{%- comment -%}
+  How a writeup was solved (param: writeup). Outputs nothing; sets three variables:
+    writeup_solved        team | solo | upsolve   (used by the filter)
+    writeup_solved_label  short text for badges   (team name, "Solo", "Upsolve")
+    writeup_solved_long   text for the metadata   ("With team xSTF", …)
+  Front matter `solved_as` wins. Without it: "team" if the CTF has a `team`
+  in _data/ctfs.yml, otherwise "solo".
+{%- endcomment -%}
+{%- assign _ws = include.writeup -%}
+{%- assign _ws_ctf = site.data.ctfs | where: "id", _ws.ctf | first -%}
+{%- if _ws.solved_as -%}
+  {%- assign writeup_solved = _ws.solved_as | downcase | strip -%}
+{%- elsif _ws_ctf.team -%}
+  {%- assign writeup_solved = "team" -%}
+{%- else -%}
+  {%- assign writeup_solved = "solo" -%}
+{%- endif -%}
+{%- case writeup_solved -%}
+{%- when "team" -%}
+  {%- assign writeup_solved_label = _ws_ctf.team | default: "Team" -%}
+  {%- if _ws_ctf.team -%}
+    {%- assign writeup_solved_long = "Playing for " | append: _ws_ctf.team -%}
+  {%- else -%}
+    {%- assign writeup_solved_long = "Playing for the team " -%}
+  {%- endif -%}
+{%- when "solo" -%}
+  {%- assign writeup_solved_label = "Solo" -%}
+  {%- assign writeup_solved_long = "Solo" -%}
+{%- when "upsolve" -%}
+  {%- assign writeup_solved_label = "Upsolve" -%}
+  {%- assign writeup_solved_long = "Upsolve (solved after the CTF ended)" -%}
+{%- else -%}
+  {%- assign writeup_solved_label = writeup_solved | capitalize -%}
+  {%- assign writeup_solved_long = writeup_solved_label -%}
+{%- endcase -%}

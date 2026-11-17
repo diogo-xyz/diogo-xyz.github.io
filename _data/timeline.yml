@@ -130,3 +130,33 @@
   links:
     - name: DeepLearn 2025
       url: https://deeplearn.irdta.eu/2025
+      
+- id: xstf
+  type: experience
+  tag: CTF team                        # one label shown as a chip
+  # tags: [CTF, Offensive Security]    # optional, list of labels
+  organization: xSTF
+  title: Member                        # role at the START
+  location: Porto, Portugal
+  start: "2026-11"
+  end:                                 # empty = Present
+  summary: The University of Porto's academic cybersecurity team, competing in CTFs.
+  details: |
+    Member of xSTF, the University of Porto's academic cybersecurity team,
+    founded in 2015 at DCC-FCUP.
+
+    - Compete in Capture The Flag (CTF) competitions as part of the team.
+    - Collaborate with teammates in training sessions, technical discussions
+      and security research.
+    - Build hands-on offensive and defensive security skills.
+  links:
+    - name: xSTF site
+      url: https://xstf.pt
+  # writeups: [coil-toss]        # optional: writeups done with the team (folder names)
+  # projects: []                       # optional: project slugs
+  # short: xSTF                        # optional: name on the faint "merge" line when it ends
+  # milestones:                        # role changes AFTER start
+  #   - date: "2027-XX"
+  #     title: Captain
+  #     kind: promotion                # promotion -> "↑" icon
+  #     description: ...

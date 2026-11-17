@@ -14,7 +14,9 @@ a certificate, a CTF or a menu tab never requires touching HTML, CSS or JavaScri
 
 ## Run it locally
 
-Requirements: Ruby 3.1 or newer and Bundler.
+Requirements: Ruby and Bundler. CI builds with Ruby 4.0
+(`.github/workflows/pages.yml`); keep it in sync with the local Ruby
+(`ruby -v`), because `Gemfile.lock` is generated locally.
 
 ```sh
 bundle install
@@ -141,6 +143,7 @@ points: 150
 summary: Classic stack overflow into a win function.
 tags: [bof, ret2win]
 flag: "picoCTF{...}"
+solved_as: team # team | solo | upsolve (optional, see below)
 ---
 
 ## Challenge
@@ -159,6 +162,21 @@ from pwn import *
 Liquid is switched off inside projects and writeups, so payloads such as
 `{{7*7}}` or `{% debug %}` can be pasted as they are.
 
+**How it was solved.** `solved_as` says whether the challenge was solved playing
+for the team (`team`), on my own (`solo`), or after the CTF ended (`upsolve`).
+It is optional: without it, a writeup counts as `team` if its CTF has a `team`
+in `_data/ctfs.yml`, and as `solo` otherwise. Only these three values are valid;
+the team name always comes from `ctfs.yml`, never from the writeup.
+
+**Images from Obsidian.** Obsidian writes images as `![[Pasted image 123.png]]`,
+which Jekyll does not understand. After pasting a writeup, run from the site root:
+
+    python3 ~/fix_obsidian_images.py
+
+It renames the images in each writeup folder to lowercase names without spaces
+and converts `![[name.png]]` / `![[name.png|700]]` to standard markdown.
+Folder names (the URL slugs) should also be lowercase with hyphens.
+
 ### A new CTF
 
 Add a block to `_data/ctfs.yml`. It appears on the writeups page as soon as a
@@ -172,6 +190,7 @@ writeup uses its `id`. With `in_person: true` it also appears on the timeline.
   in_person: false
   team: TeamName
   placement: 120th
+  solo_placement: 85th # optional: placement of my individual account
   url: https://example.com
   ctftime: https://ctftime.org/event/0000
   summary: One line.
@@ -295,16 +314,17 @@ reference to an id that does not exist is ignored, leaving a
 
 ### `_data/ctfs.yml`
 
-| Field | | Notes |
-|---|---|---|
-| `id` | required | Unique across `ctfs.yml` **and** `timeline.yml`. Writeups point to it with `ctf:`. |
-| `name` | required | |
-| `start` | required | Date. |
-| `end` | optional | Date. |
-| `in_person` | optional | `true`: also shown on the timeline as an achievement, with an "On-site" badge. Default `false`. |
-| `location`, `team`, `placement`, `summary` | optional | `placement` is shown as the result badge. |
-| `highlight` | optional | `true` turns the badge gold on the timeline. |
-| `url`, `ctftime` | optional | External links. |
+| Field                                      |          | Notes                                                                                           |
+| ------------------------------------------ | -------- | ----------------------------------------------------------------------------------------------- |
+| `id`                                       | required | Unique across `ctfs.yml` **and** `timeline.yml`. Writeups point to it with `ctf:`.              |
+| `name`                                     | required |                                                                                                 |
+| `start`                                    | required | Date.                                                                                           |
+| `end`                                      | optional | Date.                                                                                           |
+| `in_person`                                | optional | `true`: also shown on the timeline as an achievement, with an "On-site" badge. Default `false`. |
+| `location`, `team`, `placement`, `summary` | optional | `placement` is shown as the result badge.                                                       |
+| `highlight`                                | optional | `true` turns the badge gold on the timeline.                                                    |
+| `url`, `ctftime`                           | optional | External links.                                                                                 |
+| `solo_placement`                           | optional | Placement of my individual account, shown as "Solo: placed …".                                  |
 
 ### `_data/certificates.yml`
 
@@ -348,16 +368,17 @@ reference to an id that does not exist is ignored, leaving a
 
 ### Writeup front matter (`_writeups/<ctf-id>/<category>/<slug>/index.md`)
 
-| Field | | Notes |
-|---|---|---|
-| `title` | required | |
-| `ctf` | required | An `id` from `ctfs.yml`. |
-| `category` | required | An id from `ctf_categories.yml`. |
-| `difficulty` | optional | `easy`, `medium`, `hard`, `insane`. |
-| `points` | optional | Number. Writeups of a CTF are ordered by category, then points. |
-| `summary` | optional | Dialog text and page description. |
-| `tags` | optional | List of strings. Searchable. |
-| `flag` | optional | Quoted string, hidden behind "Reveal flag". |
+| Field        |          | Notes                                                                                                                                      |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`      | required |                                                                                                                                            |
+| `ctf`        | required | An `id` from `ctfs.yml`.                                                                                                                   |
+| `category`   | required | An id from `ctf_categories.yml`.                                                                                                           |
+| `difficulty` | optional | `easy`, `medium`, `hard`, `insane`.                                                                                                        |
+| `points`     | optional | Number. Writeups of a CTF are ordered by category, then points.                                                                            |
+| `summary`    | optional | Dialog text and page description.                                                                                                          |
+| `tags`       | optional | List of strings. Searchable.                                                                                                               |
+| `flag`       | optional | Quoted string, hidden behind "Reveal flag".                                                                                                |
+| `solved_as`  | optional | `team`, `solo` or `upsolve`. Default: `team` if the CTF has a `team`, otherwise `solo`. Shown as a badge, in the metadata and as a filter. |
 
 ## How it is built
 

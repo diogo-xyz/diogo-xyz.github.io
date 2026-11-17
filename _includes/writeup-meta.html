@@ -2,6 +2,7 @@
 {%- assign _wm = include.writeup -%}
 {%- assign _wm_ctf = site.data.ctfs | where: "id", _wm.ctf | first -%}
 {%- assign _wm_category = site.data.ctf_categories | where: "id", _wm.category | first -%}
+{%- include writeup-solved.html writeup=_wm -%}
 {%- if _wm.ctf -%}{%- unless _wm_ctf %}
 <!-- build warning: writeup "{{ _wm.ref }}" references unknown ctf "{{ _wm.ctf | escape }}" -->
 {%- endunless -%}{%- endif %}
@@ -12,6 +13,7 @@
   {%- if _wm.category %}
   <div><dt>Category</dt><dd>{{ _wm_category.name | default: _wm.category | escape }}</dd></div>
   {%- endif %}
+  <div><dt>Solved</dt><dd>{{ writeup_solved_long | escape }}</dd></div>
   {%- if _wm.difficulty %}
   <div><dt>Difficulty</dt><dd><span class="difficulty difficulty--{{ _wm.difficulty | escape }}">{{ _wm.difficulty | escape }}</span></dd></div>
   {%- endif %}

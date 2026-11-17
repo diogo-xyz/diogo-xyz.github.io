@@ -8,13 +8,19 @@ permalink: /writeups/
 {%- assign _ctfs = site.data.ctfs | default: _empty | sort: "start" | reverse -%}
 {%- assign _ctf_ids = _ctfs | map: "id" -%}
 {%- assign _category_ids = site.data.ctf_categories | map: "id" -%}
+{%- assign _solved_order = "team,solo,upsolve" | split: "," -%}
 
-{%- comment -%} Only CTFs and categories that have writeups are offered as filters. {%- endcomment -%}
+{%- comment -%} Only CTFs, categories and "solved as" values that have writeups are offered as filters. {%- endcomment -%}
 {%- assign _used_categories = _empty -%}
+{%- assign _used_solved = _empty -%}
 {%- assign _orphan_ctfs = _empty -%}
 {%- for writeup in site.writeups -%}
   {%- unless _used_categories contains writeup.category -%}
     {%- assign _used_categories = _used_categories | push: writeup.category -%}
+  {%- endunless -%}
+  {%- include writeup-solved.html writeup=writeup -%}
+  {%- unless _used_solved contains writeup_solved -%}
+    {%- assign _used_solved = _used_solved | push: writeup_solved -%}
   {%- endunless -%}
   {%- assign _writeup_ctf = writeup.ctf | default: "__none__" -%}
   {%- unless _ctf_ids contains _writeup_ctf -%}
@@ -58,6 +64,22 @@ permalink: /writeups/
         {%- endunless -%}
       {%- endfor %}
     </div>
+    {%- comment -%} Only shown when writeups were solved in more than one way. {%- endcomment -%}
+    {%- if _used_solved.size > 1 %}
+    <div class="chip-group" role="group" aria-label="Filter by how it was solved" data-filter-facet="solved">
+      <button type="button" class="chip" data-value="" aria-pressed="true">All</button>
+      {%- for solved in _solved_order -%}
+        {%- if _used_solved contains solved %}
+      <button type="button" class="chip" data-value="{{ solved }}" aria-pressed="false">{{ solved | capitalize }}</button>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- for solved in _used_solved -%}
+        {%- unless _solved_order contains solved %}
+      <button type="button" class="chip" data-value="{{ solved | escape }}" aria-pressed="false">{{ solved | capitalize | escape }}</button>
+        {%- endunless -%}
+      {%- endfor %}
+    </div>
+    {%- endif %}
     <label class="search">
       <span class="visually-hidden">Search writeups by title, summary or tag</span>
       <input type="search" placeholder="Search title, summary, tags" autocomplete="off" data-filter-search>
@@ -86,6 +108,9 @@ permalink: /writeups/
           {%- if ctf.placement %}
           <span>Placed {{ ctf.placement | escape }}</span>
           {%- endif %}
+          {%- if ctf.solo_placement %}
+          <span>Solo: placed {{ ctf.solo_placement | escape }}</span>
+          {%- endif %}
           {%- if ctf.url %}
           <a href="{{ ctf.url | escape }}" target="_blank" rel="noopener">Website ↗</a>
           {%- endif %}
@@ -96,7 +121,8 @@ permalink: /writeups/
       </header>
       <ul class="writeup-list">
         {%- for writeup in ctf_writeups %}
-        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }}">
+        {%- include writeup-solved.html writeup=writeup %}
+        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-solved="{{ writeup_solved | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }} {{ writeup_solved | escape }}">
           {% include writeup-card.html writeup=writeup ctf_name=ctf.name %}
         </li>
         {%- endfor %}
@@ -121,7 +147,8 @@ permalink: /writeups/
       </header>
       <ul class="writeup-list">
         {%- for writeup in ctf_writeups %}
-        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }}">
+        {%- include writeup-solved.html writeup=writeup %}
+        <li data-filter-item data-ctf="{{ writeup.ctf | escape }}" data-category="{{ writeup.category | escape }}" data-solved="{{ writeup_solved | escape }}" data-search="{{ writeup.title | append: ' ' | append: writeup.summary | append: ' ' | downcase | escape }}{{ writeup.tags | join: ' ' | downcase | escape }} {{ writeup_solved | escape }}">
           {% include writeup-card.html writeup=writeup ctf_name=_orphan_name %}
         </li>
         {%- endfor %}
@@ -129,7 +156,7 @@ permalink: /writeups/
     </section>
     {%- endfor %}
   </div>
-  <p class="empty-state" data-filter-empty hidden>No writeups match these filters. Clear the search or set both filters to "All".</p>
+  <p class="empty-state" data-filter-empty hidden>No writeups match these filters. Clear the search or set all filters to "All".</p>
 </section>
 
 {%- for writeup in site.writeups %}
