@@ -75,7 +75,7 @@ The rest of the IHDR chunk is intact: `08 06 00 00 00` means 8 bits per channel,
 In a PNG, the data from all IDAT chunks together forms a single zlib stream. Once decompressed, it contains one row of bytes for each row of the image, and each row starts with a 1-byte filter type followed by 4 bytes per pixel (RGBA). The total decompressed size is therefore:
 
 ```
-tamanho = altura × (1 + 4 × largura)
+size = height × (1 + 4 × width)
 ```
 
 With that in mind, I concatenated the IDAT data and decompressed it, following the structure described on Wikipedia:

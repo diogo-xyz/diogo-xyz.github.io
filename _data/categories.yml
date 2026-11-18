@@ -8,3 +8,11 @@
   name: Web Development
 - id: data
   name: Data Science
+- id: computer-vision
+  name: Computer Vision
+- id: health
+  name: Healthcare AI
+- id: databases
+  name: Databases
+- id: reinforcement-learning
+  name: Reinforcement Learning

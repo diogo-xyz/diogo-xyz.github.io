@@ -2,7 +2,7 @@ name: "Paulo Diogo"
 headline: "MSc Student in Computer Security @ FCUP | AI & Cybersecurity"
 location: "Porto, Portugal"
 photo: /assets/img/profile.jpg
-#cv: /assets/docs/cv.pdf                            
+#cv: /assets/docs/cv.pdf  
 bio: |
   I'm an AI & Data Science graduate from the University of Porto, currently
   pursuing a Master's in Information Security at FCUP. My focus lies in
@@ -10,8 +10,9 @@ bio: |
   the space where they meet: building AI that is secure by design, and using
   AI to make systems more resilient.
 
-  I also play CTFs, mostly reverse engineering, binary exploitation and
-  forensics. This site is where I document what I learn along the way.
+  As a member of xSTF, the University of Porto's cybersecurity team, I also
+  compete in CTFs, where I put theory into practice. This site is where I
+  document what I learn along the way.
 
   I was twice awarded the Impulso Jovens STEAM Merit Scholarship. Beyond
   academics, six years as a federated competitive swimmer and four years of

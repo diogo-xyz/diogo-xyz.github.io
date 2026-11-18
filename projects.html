@@ -65,7 +65,7 @@ permalink: /projects/
     </header>
     {% include project-meta.html project=project %}
     {%- if project.cover %}
-    <img class="detail__cover" src="{{ project.cover }}" alt="" width="1280" height="720">
+    <img class="detail__cover" src="{{ project.url | append: project.cover | relative_url }}" alt="" width="1280" height="720">
     {%- endif %}
     <div class="prose">
       {{ project.content }}

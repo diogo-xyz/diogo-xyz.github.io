@@ -260,8 +260,6 @@ print("\nFlag:", flag)
 3406   b' Your'
 47807  b' darts'
 42023  b' sleepy'
-
-Flag: d4rk{ved-in.was.here.?}
 ```
 
 The first 14 tokens form the flag. The remaining tokens after the closing `}` are only padding, used to fill all 32 layers of the network, and decode to meaningless words.

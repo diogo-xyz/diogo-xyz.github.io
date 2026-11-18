@@ -34,3 +34,15 @@
   description: 3rd place in the gravitational lensing challenge of the DeepLearn 2025 hackathon.
   file: /assets/docs/certificates/deep-learn-hackathon-award.pdf
   event: deeplearn-2025-hackathon
+  
+- id: deep-learning-specialization
+  kind: certification
+  title: Deep Learning Specialization
+  issuer: DeepLearning.AI (Coursera)
+  date: "2026-02-04"
+  description: >-
+    Five-course specialization covering neural networks and deep learning,
+    hyperparameter tuning, regularization and optimization, structuring ML
+    projects, convolutional neural networks and sequence models.
+  file: /assets/docs/certificates/coursera-deep-learn.pdf
+  verify_url: https://coursera.org/verify/specialization/IFEVKTLTI4M7
